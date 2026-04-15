@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PowerWatch Home</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F59E0B", 
+                        "primary-soft": "#FFF8E1",
+                        "background-light": "#F0F2F5", 
+                        "card-light": "#FFFFFF",
+                        "text-main": "#1F2937",
+                        "text-sub": "#6B7280",
+                        "accent-teal": "#2DD4BF",
+                        "accent-indigo": "#818CF8",
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        'xl': "1rem",
+                        '2xl': "1.5rem",
+                        '3xl': "2rem", // Ultra-soft for cards
+                        '4xl': "2.5rem",
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
+                        'float': '0 20px 40px -5px rgba(0,0,0,0.1)',
+                        'inner-white': 'inset 0 2px 4px 0 rgba(255, 255, 255, 0.6)',
+                    },
+                    backgroundImage: {
+                        'gradient-main': 'linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%)',
+                        'gradient-card': 'linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%)',
+                        'soft-lavender': 'linear-gradient(135deg, #E0E7FF 0%, #F3E8FF 100%)',
+                    }
+                },
+            },
+        };
+    </script>
+<style>
+        html { scroll-behavior: smooth; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }.squircle {
+            border-radius: 2rem;}
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .card-gradient-1 {
+            background: linear-gradient(120deg, rgba(255,255,255,0.9) 0%, rgba(240,253,250,0.8) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[#EBEBF2] font-sans antialiased text-text-main min-h-screen flex justify-center selection:bg-primary/20">
+<div class="w-full max-w-md bg-gradient-to-br from-[#F2F4F8] to-[#E2E6EE] min-h-screen relative shadow-2xl overflow-hidden flex flex-col">
+<header class="pt-14 pb-4 px-6 flex items-center justify-between z-10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center border border-white/50">
+<img alt="Profile" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2tIZprxTAIfbPfQqXK3YleUFN8T9g_J2TF3Bmj-9Ylp1IUGYuRa9qdlNEsIVDg8RSsprXTslKxJS1RtfyjS2Asq1pbr967x02H_egbuyzDZtDiVhAU9uqSoCsHTx2yOOPTmMdYR26nNvWUtuNVZNp3HO43cEe2Wp6WFYX7Ps2M60EkJYAUYSbhPYHoXHYZoXp0l7ANaal_N2GjWB5RmkyrK0S56WiieJHV8wQfNgXu2htw5Y1rJbWX-tY8hQikY9oOJOR0e-97kw"/>
+</div>
+<div>
+<p class="text-xs text-text-sub font-medium">Welcome back,</p>
+<h1 class="text-lg font-bold text-text-main leading-none">Felix</h1>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 rounded-full bg-white shadow-sm border border-white/50 flex items-center justify-center text-text-sub hover:text-primary transition-colors">
+<span class="material-icons-round text-xl">notifications_none</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-white shadow-sm border border-white/50 flex items-center justify-center text-text-sub hover:text-primary transition-colors">
+<span class="material-icons-round text-xl">settings</span>
+</button>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto no-scrollbar px-6 pb-32">
+<div class="flex justify-center mb-6">
+<div class="flex items-center gap-2 bg-white/60 backdrop-blur-sm px-4 py-1.5 rounded-full shadow-sm border border-white/40">
+<span class="material-icons-round text-sm text-green-500 animate-pulse">sync</span>
+<span class="text-xs font-medium text-text-sub">Updated 1m ago</span>
+</div>
+</div>
+<div class="flex items-center justify-between mb-4 px-1">
+<h2 class="text-xl font-bold text-text-main">Your Areas</h2>
+<button class="text-xs font-semibold text-amber-600 bg-primary/10 px-3 py-1.5 rounded-full hover:bg-primary/20 transition-colors">
+                    Manage
+                </button>
+</div>
+<div class="bg-white rounded-[2rem] p-6 shadow-soft relative overflow-hidden mb-6 z-0">
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-100 rounded-full blur-3xl opacity-60"></div>
+<div class="absolute -bottom-10 -left-10 w-32 h-32 bg-orange-50 rounded-full blur-3xl opacity-60"></div>
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white shadow-lg shadow-orange-200">
+<span class="material-icons-round text-2xl">bolt</span>
+</div>
+<div>
+<h3 class="font-bold text-xl text-gray-900">Calumpang</h3>
+<p class="text-xs text-gray-500 font-medium">Scheduled Maintenance</p>
+</div>
+</div>
+<span class="px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-xs font-bold border border-amber-200">
+                            Scheduled
+                        </span>
+</div>
+<div class="grid grid-cols-4 gap-2 mb-6">
+<div class="flex flex-col items-center">
+<div class="bg-gray-900 text-white w-full aspect-square rounded-2xl flex items-center justify-center text-2xl font-bold shadow-md relative overflow-hidden">
+                                05
+                                <div class="absolute inset-x-0 bottom-0 h-1/2 bg-white/5 pointer-events-none"></div>
+</div>
+<span class="text-[10px] font-semibold text-gray-400 mt-2 uppercase tracking-wide">Days</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="bg-gray-900 text-white w-full aspect-square rounded-2xl flex items-center justify-center text-2xl font-bold shadow-md relative overflow-hidden">
+                                12
+                                <div class="absolute inset-x-0 bottom-0 h-1/2 bg-white/5 pointer-events-none"></div>
+</div>
+<span class="text-[10px] font-semibold text-gray-400 mt-2 uppercase tracking-wide">Hrs</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="bg-gray-900 text-white w-full aspect-square rounded-2xl flex items-center justify-center text-2xl font-bold shadow-md relative overflow-hidden">
+                                34
+                                <div class="absolute inset-x-0 bottom-0 h-1/2 bg-white/5 pointer-events-none"></div>
+</div>
+<span class="text-[10px] font-semibold text-gray-400 mt-2 uppercase tracking-wide">Mins</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="bg-gray-900 text-primary w-full aspect-square rounded-2xl flex items-center justify-center text-2xl font-bold shadow-md relative overflow-hidden border border-primary/20">
+                                21
+                                <div class="absolute inset-x-0 bottom-0 h-1/2 bg-white/5 pointer-events-none"></div>
+</div>
+<span class="text-[10px] font-semibold text-gray-400 mt-2 uppercase tracking-wide">Secs</span>
+</div>
+</div>
+<div class="flex justify-between items-left text-sm border-t border-gray-100 pt-4">
+<span class="material-icons-round text-base">schedule</span>
+<span class="text-gray-500 font-medium">8:00 AM — 12:00 PM</span>
+<span class="bg-gray-900 text-white text-xs font-bold px-2 py-1 rounded-md">4 hrs</span>
+</div>
+</div>
+</div>
+<div class="space-y-3 mb-8">
+<div class="bg-white rounded-3xl p-5 shadow-sm border border-white/60 hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-teal-50/50 to-transparent pointer-events-none"></div>
+<div class="flex justify-between items-center relative z-10">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center text-teal-600">
+<span class="material-icons-round">location_on</span>
+</div>
+<div>
+<h3 class="font-bold text-gray-900">Buayan</h3>
+<p class="text-xs text-gray-400 font-medium">District 2</p>
+</div>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-100">
+<span class="w-2 h-2 rounded-full bg-teal-500"></span>
+<span class="text-xs font-bold text-teal-700">Clear</span>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-3xl p-5 shadow-sm border border-white/60 hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-blue-50/50 to-transparent pointer-events-none"></div>
+<div class="flex justify-between items-center relative z-10">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600">
+<span class="material-icons-round">location_on</span>
+</div>
+<div>
+<h3 class="font-bold text-gray-900">City Heights</h3>
+<p class="text-xs text-gray-400 font-medium">District 1</p>
+</div>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-100">
+<span class="w-2 h-2 rounded-full bg-teal-500"></span>
+<span class="text-xs font-bold text-teal-700">Clear</span>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-3xl p-5 shadow-sm border border-white/60 hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-purple-50/50 to-transparent pointer-events-none"></div>
+<div class="flex justify-between items-center relative z-10">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600">
+<span class="material-icons-round">location_on</span>
+</div>
+<div>
+<h3 class="font-bold text-gray-900">Tambler</h3>
+<p class="text-xs text-gray-400 font-medium">District 2</p>
+</div>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-100">
+<span class="w-2 h-2 rounded-full bg-teal-500"></span>
+<span class="text-xs font-bold text-teal-700">Clear</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-white p-5 rounded-3xl shadow-sm border border-white/60 flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="flex items-center gap-2 text-gray-500 mb-1 relative z-10">
+<span class="material-icons-round text-lg text-primary">payments</span>
+<span class="text-xs font-bold tracking-wide">RATE</span>
+</div>
+<div class="relative z-10">
+<div class="text-2xl font-bold text-gray-900">₱9.55</div>
+<div class="text-[10px] text-gray-400 font-medium">per kWh</div>
+</div>
+</div>
+<div class="bg-white p-5 rounded-3xl shadow-sm border border-white/60 flex flex-col justify-between h-32 relative overflow-hidden">
+<div class="flex items-center gap-2 text-gray-500 mb-1 relative z-10">
+<span class="material-icons-round text-lg text-red-500">event_busy</span>
+<span class="text-xs font-bold tracking-wide">NEXT</span>
+</div>
+<div class="relative z-10">
+<div class="text-2xl font-bold text-gray-900">Mar 8</div>
+<div class="text-[10px] text-gray-400 font-medium">Scheduled</div>
+</div>
+</div>
+</div>
+</main>
+<nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-[360px] glass-nav rounded-[2.5rem] px-2 py-2 flex justify-between items-center shadow-float z-50">
+<button class="flex flex-col items-center justify-center w-12 h-12 rounded-full text-primary bg-primary/10">
+<span class="material-icons-round text-2xl">home</span>
+</button>
+<button class="flex flex-col items-center justify-center w-12 h-12 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all">
+<span class="material-icons-round text-2xl">notifications</span>
+</button>
+<button class="flex items-center justify-center w-14 h-14 rounded-full bg-primary text-white shadow-lg shadow-primary/30 -mt-8 border-4 border-[#F2F4F8]">
+<span class="material-icons-round text-3xl">add</span>
+</button>
+<button class="flex flex-col items-center justify-center w-12 h-12 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all">
+<span class="material-icons-round text-2xl">calculate</span>
+</button>
+<button class="flex flex-col items-center justify-center w-12 h-12 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all">
+<span class="material-icons-round text-2xl">history</span>
+</button>
+</nav>
+</div>
+
+</body></html>

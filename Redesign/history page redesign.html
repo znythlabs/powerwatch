@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Outage History - Soft Glass</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.25rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(236, 91, 19, 0.1);
+        }
+        .squircle {
+            border-radius: 2rem;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen pb-24">
+<!-- Header -->
+<header class="sticky top-0 z-50 px-6 py-4 flex items-center justify-between glass-card">
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-slate-700 dark:text-slate-200">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight">Outage History</h1>
+<div class="flex gap-2">
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-slate-700 dark:text-slate-200">settings</span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-full bg-primary/10">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</button>
+</div>
+</header>
+<main class="max-w-md mx-auto px-6 pt-6 space-y-8">
+<!-- Summary Section -->
+<section class="grid grid-cols-3 gap-3">
+<div class="glass-card rounded-2xl p-4 flex flex-col items-center text-center shadow-sm">
+<div class="size-10 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-primary text-xl">bolt</span>
+</div>
+<span class="text-[10px] uppercase tracking-wider font-semibold text-slate-500 mb-1">Outages</span>
+<span class="text-xl font-bold">12</span>
+</div>
+<div class="glass-card rounded-2xl p-4 flex flex-col items-center text-center shadow-sm">
+<div class="size-10 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-primary text-xl">schedule</span>
+</div>
+<span class="text-[10px] uppercase tracking-wider font-semibold text-slate-500 mb-1">Downtime</span>
+<span class="text-xl font-bold">24h</span>
+</div>
+<div class="glass-card rounded-2xl p-4 flex flex-col items-center text-center shadow-sm">
+<div class="size-10 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-primary text-xl">timer</span>
+</div>
+<span class="text-[10px] uppercase tracking-wider font-semibold text-slate-500 mb-1">Avg Dur</span>
+<span class="text-xl font-bold">2.1h</span>
+</div>
+</section>
+<!-- Modern Calendar Section -->
+<section class="glass-card rounded-3xl p-6 shadow-md">
+<div class="flex items-center justify-between mb-6">
+<button class="material-symbols-outlined text-slate-400">chevron_left</button>
+<h3 class="font-bold text-base">March 2026</h3>
+<button class="material-symbols-outlined text-slate-400">chevron_right</button>
+</div>
+<div class="grid grid-cols-7 gap-y-2">
+<!-- Days of week -->
+<div class="text-center text-[10px] font-bold text-slate-400 uppercase">S</div>
+<div class="text-center text-[10px] font-bold text-slate-400 uppercase">M</div>
+<div class="text-center text-[10px] font-bold text-slate-400 uppercase">T</div>
+<div class="text-center text-[10px] font-bold text-slate-400 uppercase">W</div>
+<div class="text-center text-[10px] font-bold text-slate-400 uppercase">T</div>
+<div class="text-center text-[10px] font-bold text-slate-400 uppercase">F</div>
+<div class="text-center text-[10px] font-bold text-slate-400 uppercase">S</div>
+<!-- Dates (Manual offset for demo) -->
+<div class="h-10 flex items-center justify-center text-sm font-medium col-start-1">1</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">2</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">3</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium relative">
+                    4
+                    <span class="absolute bottom-1 size-1 bg-primary rounded-full"></span>
+</div>
+<div class="h-10 flex items-center justify-center text-sm font-bold bg-primary text-white rounded-xl">5</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">6</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">7</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">8</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">9</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium relative">
+                    10
+                    <span class="absolute bottom-1 size-1 bg-primary rounded-full"></span>
+</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">11</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">12</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">13</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">14</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">15</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">16</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">17</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">18</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">19</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">20</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">21</div>
+<div class="h-10 flex items-center justify-center text-sm font-medium">22</div>
+</div>
+</section>
+<!-- Recent Outages List -->
+<section class="space-y-4">
+<h3 class="text-sm font-bold text-slate-500 uppercase tracking-widest px-1">Recent Outages</h3>
+<!-- Outage Card 1 -->
+<div class="glass-card squircle p-5 shadow-sm flex items-center gap-4">
+<div class="size-14 rounded-2xl bg-orange-100 dark:bg-orange-900/30 flex flex-col items-center justify-center shrink-0">
+<span class="text-[10px] font-bold text-primary uppercase">Mar</span>
+<span class="text-xl font-bold text-primary">05</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-semibold text-slate-400">08:00 AM - 12:00 PM</span>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">4h</span>
+</div>
+<p class="text-sm font-bold text-slate-800 dark:text-slate-100 truncate">NGCP EMERGENCY POWER INTERRUPTION</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Scheduled Maintenance</p>
+</div>
+</div>
+<!-- Outage Card 2 -->
+<div class="glass-card squircle p-5 shadow-sm flex items-center gap-4">
+<div class="size-14 rounded-2xl bg-orange-100 dark:bg-orange-900/30 flex flex-col items-center justify-center shrink-0">
+<span class="text-[10px] font-bold text-primary uppercase">Mar</span>
+<span class="text-xl font-bold text-primary">04</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-semibold text-slate-400">02:15 PM - 03:45 PM</span>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">1.5h</span>
+</div>
+<p class="text-sm font-bold text-slate-800 dark:text-slate-100 truncate">TRANSFORMER REPAIR</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Faulty Equipment</p>
+</div>
+</div>
+<!-- Outage Card 3 -->
+<div class="glass-card squircle p-5 shadow-sm flex items-center gap-4">
+<div class="size-14 rounded-2xl bg-orange-100 dark:bg-orange-900/30 flex flex-col items-center justify-center shrink-0">
+<span class="text-[10px] font-bold text-primary uppercase">Feb</span>
+<span class="text-xl font-bold text-primary">28</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-semibold text-slate-400">10:00 PM - 11:00 PM</span>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">1h</span>
+</div>
+<p class="text-sm font-bold text-slate-800 dark:text-slate-100 truncate">GRID SYSTEM DISTURBANCE</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">External Grid Issue</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Bottom Navigation -->
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-sm glass-card rounded-full shadow-2xl px-2 py-2 flex items-center justify-around">
+<a class="flex flex-col items-center gap-1 p-2 text-slate-400" href="#">
+<span class="material-symbols-outlined text-2xl">home</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-primary" href="#">
+<span class="material-symbols-outlined text-2xl fill-[1]">bolt</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Outages</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-slate-400" href="#">
+<span class="material-symbols-outlined text-2xl">bar_chart</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Usage</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-slate-400" href="#">
+<span class="material-symbols-outlined text-2xl">help</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Support</span>
+</a>
+</div>
+</body></html>

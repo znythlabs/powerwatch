@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bill Calculator - PowerWatch Data Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#1a120e",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer components {
+            .glass {
+                background: rgba(255, 255, 255, 0.75);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border: 1px solid rgba(255, 255, 255, 0.5);
+            }
+            .glass-dark {
+                background: rgba(34, 22, 16, 0.7);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            .soft-card {
+                @apply bg-white/80 dark:bg-slate-800/40 backdrop-blur-md border border-white/40 dark:border-white/5 shadow-sm;
+            }
+            .chart-ring {
+                stroke-dasharray: 100 100;
+                transition: stroke-dashoffset 0.5s ease;
+            }
+        }
+        body {
+            font-family: 'Public Sans', sans-serif;
+            min-height: 100dvh;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 pb-32">
+<header class="sticky top-0 z-50 glass dark:glass-dark px-4 py-4 flex items-center justify-between shadow-sm">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-slate-700 dark:text-slate-200">arrow_back</span>
+</button>
+<div class="text-center">
+<h1 class="text-base font-bold tracking-tight text-slate-900 dark:text-slate-100 leading-none">Bill Calculator</h1>
+<p class="text-[10px] text-slate-500 uppercase font-bold mt-1 tracking-widest">Data-Driven Insights</p>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-slate-700 dark:text-slate-200">analytics</span>
+</button>
+</header>
+<main class="max-w-md mx-auto px-4 pt-6 space-y-5">
+<section class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a120e] to-[#2d1e18] p-6 text-white shadow-xl">
+<div class="relative z-10 flex items-center justify-between">
+<div class="space-y-1">
+<p class="text-xs font-semibold text-orange-400 uppercase tracking-wider">Estimated Impact</p>
+<h2 class="text-4xl font-extrabold tracking-tighter">₱958.99</h2>
+<div class="flex items-center gap-1.5 text-emerald-400 text-xs font-bold">
+<span class="material-symbols-outlined text-sm">trending_down</span>
+                    -₱132.40 (12%) vs last month
+                </div>
+</div>
+<div class="w-16 h-16 relative">
+<svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
+<circle class="stroke-white/10" cx="18" cy="18" fill="none" r="16" stroke-width="3"></circle>
+<circle class="stroke-primary chart-ring" cx="18" cy="18" fill="none" r="16" stroke-dasharray="75 100" stroke-width="3"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="text-[10px] font-bold">75%</span>
+</div>
+</div>
+</div>
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 16px 16px;"></div>
+</section>
+<section class="soft-card p-5 rounded-2xl">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-bold text-sm uppercase tracking-wide text-slate-500">Consumption Adjustment</h3>
+<span class="material-symbols-outlined text-primary text-xl">tune</span>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="space-y-2">
+<label class="text-[10px] font-bold text-slate-400 uppercase px-1">Current usage</label>
+<div class="relative">
+<input class="w-full bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700 rounded-xl px-3 py-3 text-lg font-bold text-slate-700 dark:text-slate-100 focus:ring-primary focus:border-primary" type="number" value="165"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400">kWh</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold text-primary uppercase px-1">Target usage</label>
+<div class="relative">
+<input class="w-full bg-orange-50 dark:bg-orange-950/20 border-primary/20 rounded-xl px-3 py-3 text-lg font-bold text-primary focus:ring-primary focus:border-primary" type="number" value="145"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-orange-300">kWh</span>
+</div>
+</div>
+</div>
+<div class="relative h-6 flex items-center mb-2">
+<div class="absolute w-full h-2 bg-slate-100 dark:bg-slate-700 rounded-full"></div>
+<div class="absolute h-2 bg-primary/30 rounded-full" style="width: 80%"></div>
+<div class="absolute h-2 bg-primary rounded-full" style="width: 60%"></div>
+<div class="absolute left-[60%] -translate-x-1/2 w-6 h-6 bg-white dark:bg-slate-800 border-2 border-primary rounded-full shadow-lg z-10 cursor-pointer"></div>
+</div>
+<div class="flex justify-between text-[10px] font-medium text-slate-400">
+<span>0 kWh</span>
+<span>Target: 145 kWh</span>
+<span>300 kWh</span>
+</div>
+</section>
+<section class="space-y-3">
+<div class="flex items-center justify-between px-1">
+<h3 class="font-bold text-sm uppercase tracking-wide text-slate-500">Visual Cost Distribution</h3>
+<button class="text-xs font-bold text-primary flex items-center gap-1">
+                FULL REPORT <span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+<div class="soft-card rounded-2xl overflow-hidden">
+<div class="p-5 border-b border-slate-100 dark:border-slate-700/50">
+<div class="space-y-4">
+<div class="space-y-1.5">
+<div class="flex justify-between text-xs">
+<span class="text-slate-600 dark:text-slate-400">Gen &amp; Trans</span>
+<span class="font-bold">₱512.40 (53%)</span>
+</div>
+<div class="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 53%"></div>
+</div>
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between text-xs">
+<span class="text-slate-600 dark:text-slate-400">Distribution</span>
+<span class="font-bold">₱284.15 (30%)</span>
+</div>
+<div class="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-orange-400" style="width: 30%"></div>
+</div>
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between text-xs">
+<span class="text-slate-600 dark:text-slate-400">Taxes &amp; Others</span>
+<span class="font-bold">₱162.44 (17%)</span>
+</div>
+<div class="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-slate-400" style="width: 17%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="divide-y divide-slate-100 dark:divide-slate-700/50 bg-slate-50/30 dark:bg-slate-900/10">
+<button class="w-full flex justify-between p-4 items-center text-xs hover:bg-slate-100/50 dark:hover:bg-white/5 transition-colors">
+<span class="text-slate-500">Universal Charges</span>
+<span class="font-semibold">₱42.10</span>
+</button>
+<button class="w-full flex justify-between p-4 items-center text-xs hover:bg-slate-100/50 dark:hover:bg-white/5 transition-colors">
+<span class="text-slate-500">Value Added Tax (12%)</span>
+<span class="font-semibold">₱120.34</span>
+</button>
+</div>
+</div>
+</section>
+<section class="grid grid-cols-1 gap-3">
+<div class="soft-card p-4 rounded-2xl flex items-center gap-4 bg-emerald-50/30 dark:bg-emerald-900/10 border-emerald-100 dark:border-emerald-900/20">
+<div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-emerald-600 font-bold">verified</span>
+</div>
+<div class="flex-1">
+<h4 class="text-xs font-bold text-slate-800 dark:text-slate-100">Downtime Credit</h4>
+<p class="text-[10px] text-slate-500">4.2h system unavailability</p>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-emerald-600">-₱32.50</p>
+</div>
+</div>
+<div class="soft-card p-4 rounded-2xl space-y-3">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+<span class="material-symbols-outlined text-primary text-sm">ac_unit</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-xs font-bold text-slate-800 dark:text-slate-100">Set AC at 25°C</p>
+<p class="text-[10px] text-slate-500 truncate italic">Impact: -₱120/mo</p>
+</div>
+<button class="text-[10px] font-bold text-primary px-3 py-1.5 bg-primary/5 rounded-lg">APPLY</button>
+</div>
+</div>
+</section>
+<div class="pt-4 px-2">
+<button class="w-full bg-primary hover:bg-orange-600 text-white font-bold py-4 rounded-2xl shadow-xl shadow-primary/20 transition-all flex items-center justify-center gap-2">
+            Confirm &amp; Pay
+            <span class="material-symbols-outlined">payments</span>
+</button>
+</div>
+</main>
+<nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-sm glass dark:glass-dark rounded-full shadow-2xl px-2 py-2 flex items-center justify-around z-[100] border border-white/50 dark:border-white/5">
+<a class="flex flex-col items-center justify-center w-12 h-12 text-slate-400" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[9px] font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center w-12 h-12 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">receipt_long</span>
+<span class="text-[9px] font-bold">Bills</span>
+</a>
+<div class="relative -top-6">
+<button class="w-14 h-14 bg-primary rounded-full flex items-center justify-center text-white shadow-lg shadow-primary/40 ring-4 ring-white dark:ring-[#221610]">
+<span class="material-symbols-outlined text-3xl">bolt</span>
+</button>
+</div>
+<a class="flex flex-col items-center justify-center w-12 h-12 text-slate-400" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="text-[9px] font-medium">Usage</span>
+</a>
+<a class="flex flex-col items-center justify-center w-12 h-12 text-slate-400" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-[9px] font-medium">Profile</span>
+</a>
+</nav>
+
+</body></html>
