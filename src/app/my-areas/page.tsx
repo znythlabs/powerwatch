@@ -74,54 +74,58 @@ export default function MyAreasPage() {
         <div className="max-w-2xl mx-auto space-y-6 animate-fade-in">
             {/* Header */}
             <div>
-                <h1 className="font-heading text-2xl font-bold">{t('areas.title')}</h1>
-                <p className="text-sm text-muted-foreground mt-1">{t('areas.subtitle')}</p>
+                <h1 className="font-heading text-2xl font-bold text-slate-900">{t('areas.title')}</h1>
+                <p className="text-sm text-slate-500 mt-1 font-medium">{t('areas.subtitle')}</p>
             </div>
 
             {/* Area Count */}
             <div className="flex items-center justify-between">
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                     {t('areas.areasCount')
                         .replace('{count}', monitoredAreas.length.toString())
                         .replace('{max}', maxAreas.toString())}
                 </p>
-                <Badge variant="outline" className="text-xs">
-                    {tier === 'premium' ? t('areas.premium') : t('areas.free')}
+                <Badge variant="secondary" className="text-[10px] bg-slate-100 text-slate-500 border-0 font-bold px-2 py-0.5">
+                    {tier === 'premium' ? t('areas.premium') : t('areas.free').toUpperCase()}
                 </Badge>
             </div>
 
             {/* Area List */}
             {monitoredAreas.length > 0 ? (
-                <div className="space-y-3">
+                <div className="space-y-4">
                     {monitoredAreas.map((area) => {
                         const nextBrownout = getAreaNextBrownout(area.name);
                         return (
                             <div
                                 key={area.id}
-                                className="glass rounded-xl p-4 space-y-3 animate-slide-up"
+                                className="bg-white rounded-3xl p-5 shadow-soft border border-white/60 animate-slide-up"
                             >
                                 <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 shadow-md shadow-orange-200 flex items-center justify-center">
-                                            <span className="material-icons-round text-[20px] text-white">location_on</span>
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500/10 to-orange-500/10 flex items-center justify-center">
+                                            <span className="material-icons-round text-[24px] text-amber-500">location_on</span>
                                         </div>
                                         <div>
-                                            <p className="font-heading font-bold text-sm">{area.name}</p>
-                                            <p className="text-xs text-muted-foreground">{area.district}</p>
+                                            <p className="font-heading font-extrabold text-slate-900 text-base">{area.name}</p>
+                                            <p className="text-xs text-slate-400 font-bold uppercase tracking-tight">{area.district}</p>
                                         </div>
                                     </div>
+
                                     <button
                                         onClick={() => removeArea(area.id)}
-                                        className="text-muted-foreground hover:text-status-danger transition-colors p-2"
+                                        className="text-slate-200 hover:text-red-500 transition-colors p-2"
                                         aria-label={`${t('areas.remove')} ${area.name}`}
                                     >
-                                        <span className="material-icons-round text-[16px]">delete</span>
+                                        <span className="material-icons-round text-[20px]">delete_outline</span>
                                     </button>
                                 </div>
 
                                 {nextBrownout && (
-                                    <div className="flex items-center justify-between pt-2 border-t border-border/30">
-                                        <span className="text-xs text-muted-foreground">Next brownout:</span>
+                                    <div className="flex items-center justify-between pt-4 border-t border-slate-50">
+                                        <div className="flex items-center gap-1.5 px-2.5 py-1 bg-amber-50 rounded-full">
+                                            <span className="material-icons-round text-[12px] text-amber-500">schedule</span>
+                                            <span className="text-[10px] text-amber-700 font-bold uppercase tracking-wide">Next Brownout</span>
+                                        </div>
                                         <CountdownTimer targetDate={nextBrownout.scheduled_start} compact label="" />
                                     </div>
                                 )}
@@ -131,11 +135,11 @@ export default function MyAreasPage() {
                 </div>
             ) : (
                 <div className="text-center py-16 space-y-3">
-                    <div className="w-16 h-16 rounded-2xl bg-secondary/50 flex items-center justify-center mx-auto">
-                        <span className="material-icons-round text-[28px] text-muted-foreground">location_on</span>
+                    <div className="w-16 h-16 rounded-3xl bg-slate-50 flex items-center justify-center mx-auto">
+                        <span className="material-icons-round text-[32px] text-slate-300">location_off</span>
                     </div>
-                    <p className="font-heading font-bold text-lg">{t('areas.noAreas')}</p>
-                    <p className="text-sm text-muted-foreground">{t('areas.noAreasSub')}</p>
+                    <p className="font-heading font-extrabold text-lg text-slate-800">{t('areas.noAreas')}</p>
+                    <p className="text-sm text-slate-400 font-medium">{t('areas.noAreasSub')}</p>
                 </div>
             )}
 

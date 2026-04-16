@@ -25,7 +25,9 @@ export const mockBarangays: Barangay[] = [
     { id: '22', name: 'Tambler', district: 'District 2' },
     { id: '23', name: 'Tinagacan', district: 'District 2' },
     { id: '24', name: 'Upper Labay', district: 'District 2' },
+    { id: '25', name: 'Katangawan', district: 'District 2' },
 ];
+
 
 // Helper to create future dates relative to now
 function futureDate(hoursFromNow: number): string {

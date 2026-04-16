@@ -35,7 +35,14 @@ const typeConfig = {
         cardTint: 'from-blue-50/40 to-white',
         iconColor: 'text-blue-500',
     },
+    info: {
+        label: 'announcements.info',
+        badgeColor: 'bg-blue-50 text-blue-600 border-blue-100',
+        cardTint: 'from-blue-50/40 to-white',
+        iconColor: 'text-blue-500',
+    },
 };
+
 
 export function AnnouncementCard({ announcement, index = 0, isDashboard = false }: AnnouncementCardProps) {
     const { t, language } = useTranslation();

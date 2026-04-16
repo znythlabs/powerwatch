@@ -13,11 +13,16 @@ const FIXED_CHARGES = {
 export default function CalculatorPage() {
     const { t } = useTranslation();
     const currentRate = useAppStore((s) => s.currentRate);
+    const manualRate = useAppStore((s) => s.manualRate);
     const announcements = useAppStore((s) => s.announcements);
     const monitoredAreas = useAppStore((s) => s.monitoredAreas);
-    const [kwh, setKwh] = useState<number>(165);
-    const [targetKwh, setTargetKwh] = useState<number>(145);
+    const [kwhInput, setKwhInput] = useState<string>('165');
+    const [targetKwhInput, setTargetKwhInput] = useState<string>('145');
     const [showDetailedBreakdown, setShowDetailedBreakdown] = useState(false);
+
+    const kwh = parseFloat(kwhInput) || 0;
+    const targetKwh = parseFloat(targetKwhInput) || 0;
+
 
     // Calculate monthly outage hours for monitored areas
     const outageImpact = useMemo(() => {
@@ -49,52 +54,61 @@ export default function CalculatorPage() {
         });
 
         const hourlyKwh = kwh / 720;
-        const savings = currentRate ? hourlyKwh * totalHours * currentRate.rate_per_kwh : 0;
+        const effectiveRate = manualRate ?? currentRate?.rate_per_kwh ?? 0;
+        const savings = hourlyKwh * totalHours * effectiveRate;
 
         return { totalHours: Math.round(totalHours * 10) / 10, outageCount, savings };
-    }, [announcements, monitoredAreas, kwh, currentRate]);
+    }, [announcements, monitoredAreas, kwh, currentRate, manualRate]);
 
     // Calculate bill for any kWh amount
     const calculateBill = (consumption: number) => {
-        if (!currentRate) return null;
-        const o = currentRate.others ?? {};
+        if (!currentRate && manualRate === null) return null;
 
-        const generationSystem = (o.generation_system ?? 5.7296) * consumption;
-        const pwract = (o.pwract_residential ?? -0.1737) * consumption;
-        const transmissionSystem = (o.transmission_system ?? 0.5745) * consumption;
-        const systemLoss = (o.system_loss ?? o.system_loss_total ?? 0.7730) * consumption;
+        const effectiveTotalRate = manualRate ?? currentRate?.rate_per_kwh ?? 0;
+        const scale = (manualRate !== null && currentRate)
+            ? manualRate / currentRate.rate_per_kwh
+            : 1;
+
+        const o = (currentRate?.others ?? {}) as any;
+
+
+        const generationSystem = (o.generation_system ?? 5.7296) * consumption * scale;
+        const pwract = (o.pwract_residential ?? -0.1737) * consumption * scale;
+        const transmissionSystem = (o.transmission_system ?? 0.5745) * consumption * scale;
+        const systemLoss = (o.system_loss ?? o.system_loss_total ?? 0.7730) * consumption * scale;
         const genTransSubtotal = generationSystem + pwract + transmissionSystem + systemLoss;
 
-        const distributionSystem = (o.distribution_system ?? 0.2748) * consumption;
-        const supplySystem = (o.supply_system ?? 0.4140) * consumption;
-        const meteringRetail = FIXED_CHARGES.metering_retail_customer;
-        const meteringSupply = (o.metering_supply_system ?? 0.3460) * consumption;
+        const distributionSystem = (o.distribution_system ?? 0.2748) * consumption * scale;
+        const supplySystem = (o.supply_system ?? 0.4140) * consumption * scale;
+        const meteringRetail = FIXED_CHARGES.metering_retail_customer * scale;
+        const meteringSupply = (o.metering_supply_system ?? 0.3460) * consumption * scale;
         const distributionSubtotal = distributionSystem + supplySystem + meteringRetail + meteringSupply;
 
-        const reinvestmentFund = (o.reinvestment_fund ?? 0.1518) * consumption;
+        const reinvestmentFund = (o.reinvestment_fund ?? 0.1518) * consumption * scale;
 
-        const scDiscount = (o.sc_discount_subsidy ?? 0.0007) * consumption;
-        const lifelineRate = (o.lifeline_rate_subsidy ?? 0.0001) * consumption;
+        const scDiscount = (o.sc_discount_subsidy ?? 0.0007) * consumption * scale;
+        const lifelineRate = (o.lifeline_rate_subsidy ?? 0.0001) * consumption * scale;
         const otherChargesSubtotal = scDiscount + lifelineRate;
 
-        const missionaryElec = (o.missionary_elec ?? 0.2763) * consumption;
-        const environmentalShare = (o.environmental_share ?? 0.0025) * consumption;
-        const npcStrandedDebts = (o.npc_stranded_debts ?? 0.0428) * consumption;
-        const geaRenewable = (o.gea_all_renewable ?? 0.0371) * consumption;
-        const fitAll = (o.fit_all ?? 0.2011) * consumption;
+        const missionaryElec = (o.missionary_elec ?? 0.2763) * consumption * scale;
+        const environmentalShare = (o.environmental_share ?? 0.0025) * consumption * scale;
+        const npcStrandedDebts = (o.npc_stranded_debts ?? 0.0428) * consumption * scale;
+        const geaRenewable = (o.gea_all_renewable ?? 0.0371) * consumption * scale;
+        const fitAll = (o.fit_all ?? 0.2011) * consumption * scale;
         const universalSubtotal = missionaryElec + environmentalShare + npcStrandedDebts + geaRenewable + fitAll;
 
-        const generationVat = (o.generation_vat ?? 0.6059) * consumption;
-        const transmissionVat = (o.transmission_vat ?? 0.0671) * consumption;
-        const systemLossVat = (o.system_loss_vat ?? 0.0861) * consumption;
-        const distributionFixVat = FIXED_CHARGES.distribution_fix_vat;
-        const distributionDemandVat = (o.distribution_system_demand_vat ?? 0.1242) * consumption;
+        const generationVat = (o.generation_vat ?? 0.6059) * consumption * scale;
+        const transmissionVat = (o.transmission_vat ?? 0.0671) * consumption * scale;
+        const systemLossVat = (o.system_loss_vat ?? 0.0861) * consumption * scale;
+        const distributionFixVat = FIXED_CHARGES.distribution_fix_vat * scale;
+        const distributionDemandVat = (o.distribution_system_demand_vat ?? 0.1242) * consumption * scale;
         const vatSubtotal = generationVat + transmissionVat + systemLossVat + distributionFixVat + distributionDemandVat;
 
         const total = genTransSubtotal + distributionSubtotal + reinvestmentFund + otherChargesSubtotal + universalSubtotal + vatSubtotal;
 
         return {
             total,
+            effectiveRate: effectiveTotalRate,
             genTransSubtotal,
             distributionSubtotal: distributionSubtotal + reinvestmentFund,
             otherChargesSubtotal,
@@ -110,8 +124,8 @@ export default function CalculatorPage() {
         };
     };
 
-    const result = useMemo(() => calculateBill(kwh), [currentRate, kwh]);
-    const targetResult = useMemo(() => calculateBill(targetKwh), [currentRate, targetKwh]);
+    const result = useMemo(() => calculateBill(kwh), [currentRate, manualRate, kwh]);
+    const targetResult = useMemo(() => calculateBill(targetKwh), [currentRate, manualRate, targetKwh]);
 
     const formatPeso = (val: number) => `₱${Math.abs(val).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
@@ -136,7 +150,12 @@ export default function CalculatorPage() {
                 <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-gray-900 to-gray-950 p-6 text-white shadow-xl">
                     <div className="relative z-10 flex items-center justify-between">
                         <div className="space-y-1">
-                            <p className="text-[10px] font-bold text-amber-400 uppercase tracking-widest">Estimated Bill</p>
+                            <div className="flex items-center gap-2">
+                                <p className="text-[10px] font-bold text-amber-400 uppercase tracking-widest">Estimated Bill</p>
+                                {manualRate !== null && (
+                                    <span className="bg-amber-500 text-[8px] font-black text-gray-950 px-1.5 py-0.5 rounded-sm">MANUAL RATE</span>
+                                )}
+                            </div>
                             <h2 className="text-4xl font-extrabold tracking-tighter">{formatPeso(result.total)}</h2>
                             {savingsAmount > 0 && (
                                 <div className="flex items-center gap-1.5 text-emerald-400 text-xs font-bold">
@@ -144,8 +163,9 @@ export default function CalculatorPage() {
                                     -{formatPeso(savingsAmount)} ({savingsPercent}%) if target met
                                 </div>
                             )}
-                            <p className="text-[10px] text-white/40 mt-1">{kwh} kWh × ₱{currentRate?.rate_per_kwh?.toFixed(4) ?? '—'}/kWh</p>
+                            <p className="text-[10px] text-white/40 mt-1">{kwh} kWh × ₱{result.effectiveRate.toFixed(4)}/kWh</p>
                         </div>
+
                         <div className="w-16 h-16 relative shrink-0">
                             <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
                                 <circle className="stroke-white/10" cx="18" cy="18" fill="none" r="16" strokeWidth="3" />
@@ -176,8 +196,8 @@ export default function CalculatorPage() {
                         <div className="relative">
                             <input
                                 type="number"
-                                value={kwh}
-                                onChange={(e) => setKwh(Math.max(0, parseInt(e.target.value) || 0))}
+                                value={kwhInput}
+                                onChange={(e) => setKwhInput(e.target.value)}
                                 className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-3 text-lg font-bold text-gray-700 focus:ring-amber-500 focus:border-amber-500 outline-none"
                                 min={0}
                                 aria-label="Current kWh usage"
@@ -191,8 +211,8 @@ export default function CalculatorPage() {
                         <div className="relative">
                             <input
                                 type="number"
-                                value={targetKwh}
-                                onChange={(e) => setTargetKwh(Math.max(0, parseInt(e.target.value) || 0))}
+                                value={targetKwhInput}
+                                onChange={(e) => setTargetKwhInput(e.target.value)}
                                 className="w-full bg-amber-50 border border-amber-200/50 rounded-xl px-3 py-3 text-lg font-bold text-amber-600 focus:ring-amber-500 focus:border-amber-500 outline-none"
                                 min={0}
                                 aria-label="Target kWh usage"
@@ -212,10 +232,11 @@ export default function CalculatorPage() {
                         min={0}
                         max={500}
                         value={targetKwh}
-                        onChange={(e) => setTargetKwh(parseInt(e.target.value))}
+                        onChange={(e) => setTargetKwhInput(e.target.value)}
                         className="absolute w-full h-6 opacity-0 cursor-pointer z-10"
                         aria-label="Target consumption slider"
                     />
+
                     <div
                         className="absolute -translate-x-1/2 w-6 h-6 bg-white border-2 border-amber-500 rounded-full shadow-lg z-[5] pointer-events-none"
                         style={{ left: `${sliderPercent}%` }}

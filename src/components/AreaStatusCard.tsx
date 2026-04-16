@@ -1,7 +1,6 @@
-'use client';
-
-
+import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
+
 import { CountdownTimer } from '@/components/CountdownTimer';
 import type { AlertStatus, Announcement, Barangay } from '@/lib/types';
 import { format } from 'date-fns';
@@ -36,7 +35,9 @@ const statusConfig = {
 };
 
 export function AreaStatusCard({ area, status, nextBrownout, activeBrownout, index = 0 }: AreaStatusCardProps) {
+    const [isExpanded, setIsExpanded] = useState(false);
     const config = statusConfig[status];
+
 
     const brownout = activeBrownout ?? nextBrownout;
 
@@ -88,7 +89,7 @@ export function AreaStatusCard({ area, status, nextBrownout, activeBrownout, ind
 
             <div className="relative z-10">
                 {/* Area header */}
-                <div className={`flex justify-between items-start ${(nextBrownout && status !== 'danger') ? 'mb-6' : 'mb-1'}`}>
+                <div className={`flex justify-between items-start ${(nextBrownout && status !== 'danger' && isExpanded) ? 'mb-6' : 'mb-1'}`}>
                     <div className="flex items-center gap-4">
                         <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg ${status === 'danger' ? 'bg-gradient-to-br from-red-500 to-rose-600 shadow-red-200' :
                             'bg-gradient-to-br from-amber-500 to-orange-500 shadow-orange-200'
@@ -133,10 +134,29 @@ export function AreaStatusCard({ area, status, nextBrownout, activeBrownout, ind
                     </div>
                 )}
 
-                {/* PROMINENT COUNTDOWN */}
+                {/* COLLAPSIBLE COUNTDOWN SECTION */}
                 {nextBrownout && status !== 'danger' && (
-                    <div className="mb-6">
-                        <CountdownTimer targetDate={nextBrownout.scheduled_start} />
+                    <div className="group/countdown cursor-pointer select-none" onClick={() => setIsExpanded(!isExpanded)}>
+                        {/* Summary Line (Always Visible) */}
+                        {!isExpanded && (
+                            <div className="flex items-center justify-between mb-4 bg-slate-50/50 rounded-2xl px-4 py-3 border border-slate-100 hover:border-amber-200 transition-all">
+                                <div className="flex items-center gap-2">
+                                    <span className="material-icons-round text-[18px] text-amber-500">timer</span>
+                                    <span className="text-xs font-bold text-slate-600 uppercase tracking-wider">Show Countdown</span>
+                                </div>
+                                <span className="material-icons-round text-slate-300 group-hover/countdown:text-amber-500 transition-colors">keyboard_arrow_down</span>
+                            </div>
+                        )}
+
+                        {/* Full Countdown (Expanded) */}
+                        <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-[200px] mb-6 opacity-100' : 'max-h-0 opacity-0'}`}>
+                            <div className="flex justify-end mb-2">
+                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                                    Click to hide <span className="material-icons-round text-sm">keyboard_arrow_up</span>
+                                </span>
+                            </div>
+                            <CountdownTimer targetDate={nextBrownout.scheduled_start} />
+                        </div>
                     </div>
                 )}
 

@@ -19,7 +19,9 @@ interface AppState {
 
     // Data
     announcements: Announcement[];
+    customAnnouncements: Announcement[];
     currentRate: ElectricityRate | null;
+    manualRate: number | null;
     rateHistory: ElectricityRate[];
 
     // Loading states
@@ -33,9 +35,13 @@ interface AppState {
     removeArea: (id: string) => void;
     setAuthenticated: (val: boolean) => void;
     setTier: (tier: UserTier) => void;
+    setManualRate: (rate: number | null) => void;
+    addCustomAnnouncement: (announcement: Announcement) => void;
+    removeCustomAnnouncement: (id: string) => void;
 
     // Supabase fetch actions
     fetchBarangays: () => Promise<void>;
+
     fetchAnnouncements: () => Promise<void>;
     fetchRates: () => Promise<void>;
     fetchAll: () => Promise<void>;
@@ -54,7 +60,9 @@ export const useAppStore = create<AppState>()(
             monitoredAreas: [mockBarangays[14]], // Default: Lagao
 
             announcements: mockAnnouncements,
+            customAnnouncements: [],
             currentRate: mockCurrentRate,
+            manualRate: null,
             rateHistory: mockRateHistory,
 
             isLoading: false,
@@ -76,10 +84,20 @@ export const useAppStore = create<AppState>()(
             },
             setAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
             setTier: (tier) => set({ tier }),
+            setManualRate: (manualRate) => set({ manualRate }),
+            addCustomAnnouncement: (announcement) => {
+                const { customAnnouncements } = get();
+                set({ customAnnouncements: [announcement, ...customAnnouncements] });
+            },
+            removeCustomAnnouncement: (id) => {
+                const { customAnnouncements } = get();
+                set({ customAnnouncements: customAnnouncements.filter((a) => a.id !== id) });
+            },
 
             // --- Supabase Fetch Actions ---
 
             fetchBarangays: async () => {
+
                 try {
                     const { data, error } = await supabase
                         .from('barangays')
@@ -88,13 +106,21 @@ export const useAppStore = create<AppState>()(
 
                     if (error) throw error;
                     if (data && data.length > 0) {
-                        const barangays: Barangay[] = data.map((b) => ({
+                        let barangays: Barangay[] = data.map((b) => ({
                             id: b.id,
                             name: b.name,
                             district: b.district,
                             aliases: b.aliases ?? undefined,
                         }));
+
+                        // Force display Katangawan if missing from DB response
+                        if (!barangays.some(b => b.name === 'Katangawan')) {
+                            barangays.push({ id: 'force-kat', name: 'Katangawan', district: 'District 2' });
+                            barangays.sort((a, b) => a.name.localeCompare(b.name));
+                        }
+
                         set({ allBarangays: barangays });
+
                     }
                 } catch (err) {
                     console.error('[PowerWatch] Failed to fetch barangays:', err);
@@ -104,6 +130,7 @@ export const useAppStore = create<AppState>()(
 
             fetchAnnouncements: async () => {
                 try {
+                    const { customAnnouncements } = get();
                     // Fetch announcements with their affected areas
                     const { data, error } = await supabase
                         .from('announcements')
@@ -118,10 +145,12 @@ export const useAppStore = create<AppState>()(
                         .limit(50);
 
                     if (error) throw error;
+
+                    let systemAnnouncements: Announcement[] = [];
                     if (data && data.length > 0) {
-                        const announcements: Announcement[] = data.map((a) => ({
+                        systemAnnouncements = data.map((a) => ({
                             id: a.id,
-                            type: a.type,
+                            type: a.type as Announcement['type'],
                             summary_en: a.summary_en,
                             summary_fil: a.summary_fil,
                             scheduled_start: a.scheduled_start,
@@ -136,9 +165,22 @@ export const useAppStore = create<AppState>()(
                                 feeder: aa.feeder ?? null,
                             })),
                         }));
-                        set({ announcements });
                     }
-                    // If no data, keep mock announcements for demo
+
+                    // Merge system and custom announcements
+                    // We keep custom ones that are not expired (end date in the future or within last 24h)
+                    const now = new Date();
+                    const cutoff = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+                    const filteredCustom = customAnnouncements.filter(a => {
+                        if (!a.scheduled_end) return true;
+                        return new Date(a.scheduled_end) > cutoff;
+                    });
+
+                    set({
+                        announcements: [...filteredCustom, ...systemAnnouncements],
+                        customAnnouncements: filteredCustom
+                    });
                 } catch (err) {
                     console.error('[PowerWatch] Failed to fetch announcements:', err);
                 }
@@ -205,7 +247,9 @@ export const useAppStore = create<AppState>()(
                 monitoredAreas: state.monitoredAreas,
                 // Offline cache — persist fetched data for offline viewing
                 announcements: state.announcements,
+                customAnnouncements: state.customAnnouncements,
                 currentRate: state.currentRate,
+                manualRate: state.manualRate,
                 rateHistory: state.rateHistory,
                 allBarangays: state.allBarangays,
                 lastFetched: state.lastFetched,
@@ -213,3 +257,5 @@ export const useAppStore = create<AppState>()(
         }
     )
 );
+
+

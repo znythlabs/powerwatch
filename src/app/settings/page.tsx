@@ -8,6 +8,8 @@ import { useAppStore } from '@/lib/store';
 import { useTranslation } from '@/lib/i18n';
 import type { ThemeMode } from '@/lib/types';
 import { useEffect } from 'react';
+import Link from 'next/link';
+
 
 const themes: { key: ThemeMode; icon: string; labelKey: string }[] = [
     { key: 'dark', icon: 'dark_mode', labelKey: 'settings.dark' },
@@ -174,6 +176,22 @@ export default function SettingsPage() {
                     <p className="text-xs">{t('settings.dataSource')}</p>
                 </div>
             </section>
+
+            {/* Manual Data Manager */}
+            <section className="bg-slate-900 rounded-[2rem] p-5 text-white shadow-xl shadow-slate-200">
+                <div className="flex items-center justify-between">
+                    <div className="space-y-1">
+                        <h3 className="font-bold text-sm">Manual Overrides</h3>
+                        <p className="text-[10px] text-white/40">Input power interruption schedules manually.</p>
+                    </div>
+                    <Link href="/settings/manual-schedules">
+                        <Button variant="secondary" size="sm" className="bg-white/10 text-white hover:bg-white/20 border-0 rounded-full h-9">
+                            MANAGE
+                        </Button>
+                    </Link>
+                </div>
+            </section>
+
 
             {/* Auth Button */}
             <Button
